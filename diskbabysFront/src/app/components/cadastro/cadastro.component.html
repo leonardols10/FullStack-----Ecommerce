@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <div class="row vh-100">
+    <div class="col-lg-7 col-md-4 col-sm-2 p-0">
+      <img src="assets/images/bebe.jpg" alt="Imagem bebê" class="img-fluid h-100">
+    </div>
+    <div class="col-lg-5 col-md-8 col-sm-10 mx-auto d-flex justify-content-center align-items-center">
+      <form [formGroup]="registerForm" (ngSubmit)="post()" novalidate class="bg-white rounded shadow p-5">
+        <h3 class="text-center mb-4">Cadastrar</h3>
+        <div class="mb-3">
+          <label for="username" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="username" formControlName="name" placeholder="Insira o seu nome">
+          <div *ngIf="registerForm.get('name').invalid && (registerForm.get('name').dirty || registerForm.get('name').touched)" class="text-danger">
+            <div *ngIf="registerForm.get('name').errors.required">Nome é obrigatório.</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="text" class="form-control" id="email" formControlName="email" placeholder="Insira o usuário">
+          <div *ngIf="registerForm.get('email').invalid && (registerForm.get('email').dirty || registerForm.get('email').touched)" class="text-danger">
+            <div *ngIf="registerForm.get('email').errors.required">Email é obrigatório.</div>
+            <div *ngIf="registerForm.get('email').errors.email">Email inválido.</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="password" formControlName="password" placeholder="Insira a senha">
+          <div *ngIf="registerForm.get('password').invalid && (registerForm.get('password').dirty || registerForm.get('password').touched)" class="text-danger">
+            <div *ngIf="registerForm.get('password').errors.required">Senha é obrigatória.</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Digite a senha novamente</label>
+          <input type="password" class="form-control" id="password" formControlName="reenterPassword" placeholder="Digite a senha novamente">
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">Digite o seu telefone</label>
+          <input type="number" class="form-control" id="phone" formControlName="phone" placeholder="Digite o seu telefone">
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">Digite o seu endereço </label>
+          <input type="text" class="form-control" id="address" formControlName="address" placeholder="Digite o seu endereço ">
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mb-3">Cadastrar</button>
+        <hr>
+        <p class="text-center mb-0">Já tem uma conta? faça  <a href="/login" class="text-decoration-none">Login</a></p>
+      </form>
+    </div>
+  </div>
+</div>

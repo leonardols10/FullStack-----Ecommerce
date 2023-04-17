@@ -1,0 +1,29 @@
+  <div class="container-fluid">
+    <div class="row vh-100">
+      <div class="col-lg-7 col-md-4 col-sm-2 p-0">
+        <img src="assets/images/bebe.jpg" alt="Imagem bebê" class="img-fluid h-100">
+      </div>
+      <div class="col-lg-5 col-md-8 col-sm-10 mx-auto d-flex justify-content-center align-items-center">
+        <form [formGroup]="loginForm" (ngSubmit)="checkUser()" novalidate class="bg-white rounded shadow p-5">
+          <h3 class="text-center mb-4">Login</h3>
+          <div class="mb-3">
+            <label for="username" class="form-label">Usuário</label>
+            <input type="text" class="form-control" id="username" formControlName="email" placeholder="Insira o usuário">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="password" formControlName="password" placeholder="Insira a senha">
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
+          <div class="error">
+            <div #unsuccessLogin *ngIf="div1" class="text-danger">
+              Credenciais inválidas, tente novamente!
+            </div>
+          </div>
+          <hr>
+          <p class="text-center mb-0">Não tem uma conta? <a  class="text-decoration-none" href="/cadastrar">Cadastre-se</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
