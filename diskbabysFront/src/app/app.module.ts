@@ -36,6 +36,7 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule,
     FormsModule,
     ToastrModule.forRoot(),
+
   ],
   providers: [AdminGuard ],
   bootstrap: [AppComponent]

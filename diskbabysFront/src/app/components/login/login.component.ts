@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['cliente']);
       }}
       catch (error) {
-      this.toastr.success('Credenciais invalidas', error);
       console.log('Invalid credentials', error);
     }
   }

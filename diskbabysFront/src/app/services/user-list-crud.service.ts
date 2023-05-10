@@ -25,9 +25,11 @@ export class UserListCrudService {
   }
 
   checkUser(email: string, password: string): Observable<User> {
-    const urllogin = `http://localhost:3000/login/${email}/${password}`;
-    return this.http.get<User>(urllogin, {responseType: 'json'});
+    const urllogin = `http://localhost:3000/login`;
+    const body = { email, password };
+    return this.http.post<User>(urllogin, body, {responseType: 'json'});
   }
+
 
 
   post(user: Omit<User, "id">): Observable<User>{

@@ -9,17 +9,21 @@ module.exports = class User{
         this.role=role;
     }
 
-    static find(user){
-        return db.execute('select * from user where email = ? and password = ?',[user.email,user.password])
-            .then(result => {
-                console.log("Ok")
-                return result[0];
-            })
-            .catch(err => {
-                console.error("Erro ao encontrar o usuario:", err);
-                throw err;
-            });
-    }
+    static find(email, password) {
+        return db.execute('SELECT * FROM user WHERE email = ? AND password = ?', [email, password])
+          .then(result => {
+            if (result[0].length > 0) {
+              return result[0][0];
+            } else {
+              return null;
+            }
+          })
+          .catch(err => {
+            console.error('Erro ao encontrar o usuário:', err);
+            throw err;
+          });
+      }
+      
     
 
     static fetchAll() {

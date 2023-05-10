@@ -54,37 +54,29 @@ exports.registerUser = async (req, res, next) =>{
 
 
 exports.loginUser = async (req, res, next) => {
-    const email = req.params.email;
-    const password = req.params.password;
+    const email = req.body.email;
+    const password = req.body.password;
+  
     try {
-      const login = await User.find({ email, password });
-      if (login) {
-        const user = {
-            id: login[0].id,
-            email: login[0].email,
-            name: login[0].name,
-            role: login[0].role,
-            picture: login[0].picture
-          };
+      const user = await User.find(email, password);
+      if (user) {
         const token = jwt.sign(user, '1234123213213');
         const path = '../diskBabysBack/assets/users/' + user.picture;
         fs.readFile(path, 'base64', function (err, result) {
           if (err) console.log(err);
-          login.picture = 'data:image/jpeg;base64,' + result;
+          user.picture = 'data:image/jpeg;base64,' + result;
           res.status(202).json({ user, token });
         });
       } else {
-        res.status(401).json({ message: 'Credenciais invalidas' });
-      }
+        res.status(401).json({ message: 'Credenciais invalidas', status: 'invalid_credentials' });
+    }
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: 'Erro interno no servidor' });
     }
   };
   
-
-
-
+  
 exports.getUser = async (req, res, next) =>{ // login pronto
     const email = req.body.email;
     const password = req.body.password;
