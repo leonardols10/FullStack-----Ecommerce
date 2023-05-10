@@ -11,6 +11,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ClienteComponent } from './components/cliente/cliente.component';
 import { CadastroComponent } from './components/cadastro/cadastro.component';
+import { AdminGuard } from './guards/admin.guard';
+import { SobreComponent } from './components/sobre/sobre.component';
+import { ContatoComponent } from './components/contato/contato.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,8 @@ import { CadastroComponent } from './components/cadastro/cadastro.component';
     AdminComponent,
     ClienteComponent,
     CadastroComponent,
+    SobreComponent,
+    ContatoComponent,
 
   ],
   imports: [
@@ -30,7 +35,7 @@ import { CadastroComponent } from './components/cadastro/cadastro.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [AdminGuard ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

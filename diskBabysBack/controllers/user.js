@@ -4,13 +4,14 @@ const salvarArquivo = require('../util/save');
 var fs = require('fs');
 var fsp = require('fs').promises;
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
 
 
 exports.getAllUsers = async (req, res, next) =>{
     try{
         const [allUsers] = await User.fetchAll();
         for (var user of allUsers) {
-            user.picture =  "data:image/jpeg;base64," + await fsp.readFile("../backend/assets/users/"+user.picture, 'base64');
+            user.picture =  "data:image/jpeg;base64," + await fsp.readFile("../diskBabysBack/assets/users/"+user.picture, 'base64');
         }
         res.status(200).json(allUsers);
 
@@ -51,33 +52,38 @@ exports.registerUser = async (req, res, next) =>{
     }
 };
 
-exports.loginUser = async (req, res, next) =>{
+
+exports.loginUser = async (req, res, next) => {
     const email = req.params.email;
     const password = req.params.password;
-    try{
-        const userDetails = {
-            email:email,
-            password:password,
-        };
-        const login = await User.find(userDetails);
-        const [loginTwo] = await User.find(userDetails);
-        if(login[0].length>0){ 
-            const path = "../backend/assets/users/"+loginTwo[0].picture;
-            fs.readFile(path, 'base64', function (err, result) {
-                if(err)
-                    console.log(err);
-                loginTwo[0].picture = "data:image/jpeg;base64,"+ result;
-                res.status(202).json(loginTwo);
-            });
-        }
-        else{
-            res.status(404).json(loginTwo);
-        }
-        
-    } catch{
-        console.log('Erro');
+    try {
+      const login = await User.find({ email, password });
+      if (login) {
+        const user = {
+            id: login[0].id,
+            email: login[0].email,
+            name: login[0].name,
+            role: login[0].role,
+            picture: login[0].picture
+          };
+        const token = jwt.sign(user, '1234123213213');
+        const path = '../backend/assets/users/' + user.picture;
+        fs.readFile(path, 'base64', function (err, result) {
+          if (err) console.log(err);
+          login.picture = 'data:image/jpeg;base64,' + result;
+          res.status(202).json({ user, token });
+        });
+      } else {
+        res.status(401).json({ message: 'Credenciais invalidas' });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Erro interno no servidor' });
     }
-};
+  };
+  
+
+
 
 exports.getUser = async (req, res, next) =>{ // login pronto
     const email = req.body.email;

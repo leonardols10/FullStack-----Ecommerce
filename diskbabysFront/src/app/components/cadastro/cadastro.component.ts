@@ -60,9 +60,6 @@ export class CadastroComponent implements OnInit {
       console.log('Formulário inválido');
       //toast de dados invalidos/ campos faltantes
     }
-
-
-
   }
 
 }

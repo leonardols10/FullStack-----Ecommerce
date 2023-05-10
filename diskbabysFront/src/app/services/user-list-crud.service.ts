@@ -24,11 +24,11 @@ export class UserListCrudService {
     return this.http.get<User[]>(this.url, {responseType:"json"});//.pipe(tap((_)=>console.log("fetched users")));
   }
 
-  checkUser(email:String, password:String): Observable<User[]> {
+  checkUser(email: string, password: string): Observable<User> {
     const urllogin = `http://localhost:3000/login/${email}/${password}`;
-    console.log (urllogin)
-    return this.http.get<User[]>(urllogin, {responseType:"json"});//.pipe(tap((_)=>console.log("fetched users")));
+    return this.http.get<User>(urllogin, {responseType: 'json'});
   }
+
 
   post(user: Omit<User, "id">): Observable<User>{
     return this.http.post<User>(this.urltwo,user,this.httpOptions).pipe(first());

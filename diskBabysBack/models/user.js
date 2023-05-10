@@ -10,8 +10,18 @@ module.exports = class User{
     }
 
     static find(user){
-        return db.execute('select * from user where email = ? and password = ?',[user.email,user.password]);
+        return db.execute('select * from user where email = ? and password = ?',[user.email,user.password])
+            .then(result => {
+                console.log("Ok")
+                return result[0];
+            })
+            .catch(err => {
+                console.error("Erro ao encontrar o usuario:", err);
+                throw err;
+            });
     }
+    
+
     static fetchAll() {
         return db.execute('SELECT * FROM user');
     }
@@ -21,11 +31,11 @@ module.exports = class User{
         console.log(user);
         return db.execute('Insert into user (email, password, role, picture, name, phone,address) Values (?,?,?,?,?,?,?)', [user.email,user.password,user.role,user.picture, user.name, user.phone, user.address])
             .then(result => {
-                console.log("User posted successfully with ID:", result[0].insertId);
+                console.log("Usuario criado com sucesso ID:", result[0].insertId);
                 return result[0].insertId;
             })
             .catch(err => {
-                console.error("Error while posting user:", err);
+                console.error("Erro ao criar um usuario", err);
                 throw err;
             });
     }

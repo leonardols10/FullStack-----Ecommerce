@@ -20,7 +20,7 @@
     </ul>
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">Sair</a>
+        <a class="nav-link" href="#" (click)="Logout()">Sair</a>
       </li>
     </ul>
   </div>
@@ -28,92 +28,25 @@
 
 <div class="container profile-page">
   <div class="row">
-      <div class="col-xl-6 col-lg-7 col-md-12">
-          <div class="card profile-header">
-              <div class="body">
-                  <div class="row">
-                      <div class="col-lg-4 col-md-4 col-12">
-                          <div class="profile-image float-md-right"> <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt=""> </div>
-                      </div>
-                      <div class="col-lg-8 col-md-8 col-12">
-                          <h4 class="m-t-0 m-b-0"><strong>Rapha</strong> Santos</h4>
-                          <span class="job_post">Clinete Diskbabys</span>
-                          <p>Avenida iguaçu 123</p>
-                          <div>
-                              <button class="btn btn-primary btn-round">Atualizar</button>
-                              <button class="btn btn-primary btn-round btn-danger">Excluir conta</button>
-                          </div>
-                      </div>
-                  </div>
+    <div class="col-xl-6 col-lg-7 col-md-12" *ngFor="let user of users$ | async">
+      <div class="card profile-header">
+        <div class="body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-12">
+              <div class="profile-image float-md-right"> <img src="{{ user.picture }}" alt=""> </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-12">
+              <h4 class="m-t-0 m-b-0"><strong>{{ user.Leonardo }}</strong> {{ user.lastName }}</h4>
+              <span class="job_post">{{ user.email }}</span>
+              <p>{{ user.address }}</p>
+              <div>
+                <button class="btn btn-primary btn-round">Atualizar</button>
+                <button class="btn btn-primary btn-round btn-danger" (click)="delete(user.id)">Excluir conta</button>
               </div>
+            </div>
           </div>
+        </div>
       </div>
-
-
-      <div class="col-xl-6 col-lg-7 col-md-12">
-          <div class="card profile-header">
-              <div class="body">
-                  <div class="row">
-                      <div class="col-lg-4 col-md-4 col-12">
-                          <div class="profile-image float-md-right"> <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt=""> </div>
-                      </div>
-                      <div class="col-lg-8 col-md-8 col-12">
-                          <h4 class="m-t-0 m-b-0"><strong>Rapha</strong> Santos</h4>
-                          <span class="job_post">Clinete Diskbabys</span>
-                          <p>Avenida iguaçu 123</p>
-                          <div>
-                              <button class="btn btn-primary btn-round">Atualizar</button>
-                              <button class="btn btn-primary btn-round btn-danger">Excluir conta</button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
+    </div>
   </div>
-
-  <div class="row">
-      <div class="col-xl-6 col-lg-7 col-md-12">
-          <div class="card profile-header">
-              <div class="body">
-                  <div class="row">
-                      <div class="col-lg-4 col-md-4 col-12">
-                          <div class="profile-image float-md-right"> <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt=""> </div>
-                      </div>
-                      <div class="col-lg-8 col-md-8 col-12">
-                          <h4 class="m-t-0 m-b-0"><strong>Rapha</strong> Santos</h4>
-                          <span class="job_post">Clinete Diskbabys</span>
-                          <p>Avenida iguaçu 123</p>
-                          <div>
-                              <button class="btn btn-primary btn-round">Atualizar</button>
-                              <button class="btn btn-primary btn-round btn-danger">Excluir conta</button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-
-      <div class="col-xl-6 col-lg-7 col-md-12">
-          <div class="card profile-header">
-              <div class="body">
-                  <div class="row">
-                      <div class="col-lg-4 col-md-4 col-12">
-                          <div class="profile-image float-md-right"> <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt=""> </div>
-                      </div>
-                      <div class="col-lg-8 col-md-8 col-12">
-                          <h4 class="m-t-0 m-b-0"><strong>Rapha</strong> Santos</h4>
-                          <span class="job_post">Clinete Diskbabys</span>
-                          <p>Avenida iguaçu 123</p>
-                          <div>
-                              <button class="btn btn-primary btn-round">Atualizar</button>
-                              <button class="btn btn-primary btn-round btn-danger">Excluir conta</button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-</div>
 </div>
