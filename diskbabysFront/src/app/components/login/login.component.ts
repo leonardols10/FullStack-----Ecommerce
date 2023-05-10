@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { UserListCrudService } from 'src/app/services/user-list-crud.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   div1: boolean = false;
 
-  constructor(private userListCrudService: UserListCrudService, private router: Router) { }
+  constructor(private userListCrudService: UserListCrudService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loginForm = this.formLogin();
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit {
       console.log(token)
       sessionStorage.setItem('currentUser', JSON.stringify(user));
       sessionStorage.setItem('token', token);
+      this.toastr.success('Login realizado com sucesso !');
 
       if (user.role.toLowerCase() == 'admin') {
         this.div1 = false;
@@ -54,6 +56,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['cliente']);
       }}
       catch (error) {
+      this.toastr.success('Credenciais invalidas', error);
       console.log('Invalid credentials', error);
     }
   }

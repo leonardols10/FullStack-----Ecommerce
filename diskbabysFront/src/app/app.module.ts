@@ -14,6 +14,7 @@ import { CadastroComponent } from './components/cadastro/cadastro.component';
 import { AdminGuard } from './guards/admin.guard';
 import { SobreComponent } from './components/sobre/sobre.component';
 import { ContatoComponent } from './components/contato/contato.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ContatoComponent } from './components/contato/contato.component';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [AdminGuard ],
   bootstrap: [AppComponent]

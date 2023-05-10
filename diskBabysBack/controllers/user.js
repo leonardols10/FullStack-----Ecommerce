@@ -67,7 +67,7 @@ exports.loginUser = async (req, res, next) => {
             picture: login[0].picture
           };
         const token = jwt.sign(user, '1234123213213');
-        const path = '../backend/assets/users/' + user.picture;
+        const path = '../diskBabysBack/assets/users/' + user.picture;
         fs.readFile(path, 'base64', function (err, result) {
           if (err) console.log(err);
           login.picture = 'data:image/jpeg;base64,' + result;

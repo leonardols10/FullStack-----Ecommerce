@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { UserListCrudService } from 'src/app/services/user-list-crud.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class CadastroComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  constructor(private userListCrudService:UserListCrudService,private router: Router) { }
+  constructor(private userListCrudService:UserListCrudService,private router: Router,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.registerForm = this.registerFormGroup();
@@ -48,10 +49,11 @@ export class CadastroComponent implements OnInit {
         this.registerForm.removeControl('reenterPassword');
         console.log(this.registerForm.value);
         this.userListCrudService.post(this.registerForm.value).subscribe();
-        //toast de criado com sucesso
+        this.toastr.success('Cadastro criado com sucesso!');
         this.router.navigate(['login']);
       }
       else{
+        this.toastr.error('Formulário invalido');
         this.div1=true;
         console.log("Invalid Inputs! Try Again!");
         console.log(this.registerForm.value);
@@ -59,6 +61,7 @@ export class CadastroComponent implements OnInit {
     } else {
       console.log('Formulário inválido');
       //toast de dados invalidos/ campos faltantes
+      this.toastr.success('Cadastro criado com sucesso!');
     }
   }
 
