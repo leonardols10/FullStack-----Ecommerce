@@ -1,25 +1,23 @@
 <app-navbar></app-navbar>
-<section style="background-color: #eee;">
+
+<section style="background-color: #eee; min-height: calc(100vh - 200px);">
   <div class="container py-5">
     <div class="row">
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-              class="rounded-circle img-fluid" style="width: 150px;">
-            <h5 class="my-3">John Smith</h5>
+            <img [src]="profilePicture" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">{{this.loggedInUser$.name}}</h5>
             <p class="text-muted mb-1">Cliente Diskbabys</p>
-            <p class="text-muted mb-4">Avenida Iguaçu 123</p>
+            <p class="text-muted mb-4">{{this.loggedInUser$.address}}</p>
             <div class="d-flex justify-content-center mb-2">
-
-              <button type="button" class="btn btn-danger">Excluir conta</button>
+              <button type="button" class="btn btn-danger" (click)="delete()">Excluir conta</button>
             </div>
             <div class="d-flex justify-content-center mb-2">
-              <button type="button" class="btn btn-primary">Atualizar cadastro</button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#atualizarModal">Atualizar cadastro</button>
             </div>
           </div>
         </div>
-
       </div>
       <div class="col-lg-8">
         <div class="card mb-4">
@@ -29,7 +27,7 @@
                 <p class="mb-0">Nome</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">Rapha Santos</p>
+                <p class="text-muted mb-0">{{this.loggedInUser$.name}}</p>
               </div>
             </div>
             <hr>
@@ -38,7 +36,7 @@
                 <p class="mb-0">Email</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">raphasantos@gmail.com</p>
+                <p class="text-muted mb-0">{{this.loggedInUser$.email}}</p>
               </div>
             </div>
             <hr>
@@ -47,7 +45,7 @@
                 <p class="mb-0">Telefone</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">41 997895465</p>
+                <p class="text-muted mb-0">{{this.loggedInUser$.phone}}</p>
               </div>
             </div>
             <hr>
@@ -56,13 +54,80 @@
                 <p class="mb-0">Endereço</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">Avenida Iguaçu 123</p>
+                <p class="text-muted mb-0">{{this.loggedInUser$.address}}</p>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </section>
+
+
+<app-footer></app-footer>
+
+<div class="modal fade" id="atualizarModal" tabindex="-1" role="dialog" aria-labelledby="atualizarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="atualizarModalLabel">Atualizar Cadastro</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateUserForm" (ngSubmit)="update()" novalidate class="centerForm">
+          <div class="flex-container">
+            <div class="left">
+              <div class="form-group">
+                <label for="idInp">Seu ID</label>
+                <input #idInp class="form-control" id="idInp" formControlName="id">
+              </div>
+
+              <div class="form-group">
+                <label for="nameInp">Nome</label>
+                <input #nameInp class="form-control" id="nameInp" formControlName="name">
+              </div>
+
+              <div class="form-group">
+                <label for="emailInp">Email</label>
+                <input #emailInp class="form-control" id="emailInp" formControlName="email">
+              </div>
+
+              <div class="form-group">
+                <label for="pwInp">Senha</label>
+                <input #pwInp class="form-control" id="pwInp" formControlName="password">
+              </div>
+
+              <div class="form-group">
+                <label for="phoneInp">Telefone</label>
+                <input #phoneInp class="form-control" id="phoneInp" formControlName="phone">
+              </div>
+
+              <div class="form-group">
+                <label for="addressInp">Endereço</label>
+                <input #addressInp class="form-control" id="addressInp" formControlName="address">
+              </div>
+
+            </div>
+
+            <div class="right">
+              <h5 style="text-align: left;">Change profile picture</h5>
+              <img class="product" [src]="profilePicture" width="70" height="70" style="margin:auto" />
+              <br />
+              <input #fileInp class="file-upload" type="file" (change)="onFileChange($event)">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" (click)="update()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

@@ -42,8 +42,7 @@ export class LoginComponent implements OnInit {
       const response = await this.userListCrudService.checkUser(inpOne, inpTwo).toPromise();
       const user = response.user;
       const token = response.token;
-      console.log(user)
-      console.log(token)
+      console.log(response)
       sessionStorage.setItem('currentUser', JSON.stringify(user));
       sessionStorage.setItem('token', token);
       this.toastr.success('Login realizado com sucesso !');

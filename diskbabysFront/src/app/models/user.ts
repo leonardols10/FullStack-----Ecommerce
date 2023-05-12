@@ -4,6 +4,7 @@ export interface User{
   password: string;
   role: string;
   picture: string;
-  user: any;
-  token:any
+  name: any;
+  address: any
+  phone: any
 }
