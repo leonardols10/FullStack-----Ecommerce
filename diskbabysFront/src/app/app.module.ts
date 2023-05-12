@@ -15,6 +15,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { SobreComponent } from './components/sobre/sobre.component';
 import { ContatoComponent } from './components/contato/contato.component';
 import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -35,8 +36,8 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule,
     ToastrModule.forRoot(),
-
   ],
   providers: [AdminGuard ],
   bootstrap: [AppComponent]

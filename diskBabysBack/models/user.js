@@ -43,6 +43,44 @@ module.exports = class User{
                 throw err;
             });
     }
+
+    static findByPhone(phone) {
+        console.log("Procurando por telefone:", phone);
+        return db.execute('SELECT * FROM user WHERE phone = ?', [phone])
+          .then(result => {
+            if (result[0].length > 0) {
+              console.log("Telefone encontrado:", result[0][0]);
+              return result[0][0];
+            } else {
+              console.log("Telefone não encontrado.");
+              return null;
+            }
+          })
+          .catch(err => {
+            console.error("Erro ao procurar por telefone:", err);
+            throw err;
+          });
+      }
+      
+
+    static findByEmail(email) {
+        console.log("Procurando por email:", email);
+        return db.execute('SELECT * FROM user WHERE email = ?', [email])
+          .then(result => {
+            if (result[0].length > 0) {
+              console.log("Email encontrado:", result[0][0]);
+              return result[0][0];
+            } else {
+              console.log("Email não encontrado.");
+              return null;
+            }
+          })
+          .catch(err => {
+            console.error("Erro ao procurar por email:", err);
+            throw err;
+          });
+      }
+      
     
 
     static updateWithoutPicture(user)

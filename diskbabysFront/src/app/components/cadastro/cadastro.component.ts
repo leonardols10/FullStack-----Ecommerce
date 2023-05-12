@@ -32,37 +32,51 @@ export class CadastroComponent implements OnInit {
   }
 
   div1:boolean=false;
-  post():void{
-    const inpOne = this.registerForm.controls['email'].value.trim()
-    const inpTwo = this.registerForm.controls['password'].value.trim()
-    const inpThree = this.registerForm.controls['reenterPassword'].value.trim()
+  post(): void {
+    const inpOne = this.registerForm.controls['email'].value.trim();
+    const inpTwo = this.registerForm.controls['password'].value.trim();
+    const inpThree = this.registerForm.controls['reenterPassword'].value.trim();
     this.registerForm.controls['role'].setValue("user");
-    console.log(this.registerForm.value)
 
     if (this.registerForm.valid) {
-      console.log('Formulário válido');
-      if(!inpOne || !inpTwo || !inpThree){
+      if (!inpOne || !inpTwo || !inpThree) {
         return;
       }
-      if(this.registerForm.controls['password'].value ==  this.registerForm.controls['reenterPassword'].value){
-        console.log("ok")
-        this.registerForm.removeControl('reenterPassword');
-        console.log(this.registerForm.value);
-        this.userListCrudService.post(this.registerForm.value).subscribe();
-        this.toastr.success('Cadastro criado com sucesso!');
-        this.router.navigate(['login']);
-      }
-      else{
-        this.toastr.error('Formulário invalido');
-        this.div1=true;
-        console.log("Invalid Inputs! Try Again!");
+      if (this.registerForm.controls['password'].value == this.registerForm.controls['reenterPassword'].value) {
+        this.userListCrudService.post(this.registerForm.value).subscribe(
+          response => {
+            console.log(response.status);
+            if (response && response.status === true) {
+              this.toastr.success('Cadastro criado com sucesso!');
+              this.router.navigate(['login']);
+            } else if (response && response.status === false) {
+              this.toastr.error(response.message || 'Erro ao criar cadastro. Por favor, tente novamente mais tarde.', 'Erro');
+              console.log("Erro ao criar cadastro: " + response.message);
+            } else {
+              this.toastr.error('Erro ao criar cadastro. Por favor, tente novamente mais tarde.', 'Erro');
+            }
+          },
+          error => {
+            console.error(error);
+            if (error && error.error && error.error.message) {
+              this.toastr.error(error.error.message, 'Erro');
+            } else {
+              this.toastr.error('Erro ao criar cadastro. Por favor, tente novamente mais tarde.', 'Erro');
+            }
+          }
+        );
+      } else {
+        this.toastr.error('Formulário inválido.');
+        this.div1 = true;
         console.log(this.registerForm.value);
       }
     } else {
       console.log('Formulário inválido');
-      //toast de dados invalidos/ campos faltantes
-      this.toastr.success('Cadastro criado com sucesso!');
+      this.toastr.error('Cadastro inválido. Preencha corretamente todos os campos.', 'Erro');
     }
   }
+
+
+
 
 }

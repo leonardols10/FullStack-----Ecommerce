@@ -20,37 +20,54 @@ exports.getAllUsers = async (req, res, next) =>{
     }
 };
 
-exports.registerUser = async (req, res, next) =>{
+exports.registerUser = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const name = req.body.name;
     const phone = req.body.phone;
     const address = req.body.address;
     const role = req.body.role;
-
+  
     const picture = "defaultProfilePic.jpg";
+  
     if (!validator.isEmail(email)) {
-        return res.status(400).json({ message: 'Endereço de email inválido.' });
-      }
-    
-    try{
-        const userDetails = {
-            email:email,
-            password:password,
-            name:name,
-            phone:phone,
-            address:address,
-            role:role,
-            picture:picture
-        };
-        console.log(userDetails,"user details")
-        const postUser = await User.post(userDetails);
-        return res.status(201).json({ message: 'Usuário criado.' });
-    } catch{
-        console.log('Erro');
-        return res.status(500).json({ message: 'Erro ao criar usuário.' });
+      return res.status(400).json({ status: false, message: 'Endereço de email inválido.' });
     }
-};
+  
+    try {
+      // Verificar se o email já está cadastrado
+      const emailExists = await User.findByEmail(email);
+      if (emailExists) {
+        return res.status(400).json({ status: false, message: 'Email já cadastrado.' });
+      }
+  
+      // Verificar se o telefone já está cadastrado
+      const phoneExists = await User.findByPhone(phone);
+      if (phoneExists) {
+        return res.status(400).json({ status: false, message: 'Telefone já cadastrado.' });
+      }
+  
+      const userDetails = {
+        email: email,
+        password: password,
+        name: name,
+        phone: phone,
+        address: address,
+        role: role,
+        picture: picture
+      };
+  
+      console.log(userDetails, "user details");
+  
+      const postUser = await User.post(userDetails);
+      return res.status(201).json({ status: true, message: 'Usuário criado.' });
+    } catch {
+      console.log('Erro');
+      return res.status(500).json({ status: false, message: 'Erro ao criar usuário.' });
+    }
+  };
+  
+  
 
 
 exports.loginUser = async (req, res, next) => {

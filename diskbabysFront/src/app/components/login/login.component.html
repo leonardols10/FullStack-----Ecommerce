@@ -15,7 +15,7 @@
             <input type="password" class="form-control" id="password" formControlName="password" placeholder="Insira a senha">
           </div>
 
-          <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
+          <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="loginForm.invalid || loginForm.pending">Login</button>
           <div class="error">
             <div #unsuccessLogin *ngIf="div1" class="text-danger">
               Credenciais inválidas, tente novamente!

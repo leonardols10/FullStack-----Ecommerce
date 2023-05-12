@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
       }}
       catch (error) {
       console.log('Invalid credentials', error);
+      this.toastr.error('Credenciais invalidas');
     }
   }
 }

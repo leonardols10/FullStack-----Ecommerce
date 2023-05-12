@@ -32,9 +32,10 @@ export class UserListCrudService {
 
 
 
-  post(user: Omit<User, "id">): Observable<User>{
-    return this.http.post<User>(this.urltwo,user,this.httpOptions).pipe(first());
+  post(user: Omit<User, "id">): Observable<{ status: boolean, message: string }> {
+    return this.http.post<{ status: boolean, message: string }>(this.urltwo, user, this.httpOptions).pipe(first());
   }
+
 
   update(user: User): Observable<User>{
     return this.http.put<User>(this.urlput,user,this.httpOptions).pipe(first());

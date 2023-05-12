@@ -42,7 +42,7 @@
           <label for="address" class="form-label">Digite o seu endereço </label>
           <input type="text" class="form-control" id="address" formControlName="address" placeholder="Digite o seu endereço ">
         </div>
-        <button type="submit" class="btn btn-primary w-100 mb-3">Cadastrar</button>
+        <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="registerForm.invalid || registerForm.pending">Cadastrar</button>
         <hr>
         <p class="text-center mb-0">Já tem uma conta? faça  <a href="/login" class="text-decoration-none">Login</a></p>
       </form>
