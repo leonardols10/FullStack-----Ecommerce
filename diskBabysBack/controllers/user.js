@@ -7,6 +7,9 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 
 
+
+
+
 exports.getAllUsers = async (req, res, next) =>{
     try{
         const [allUsers] = await User.fetchAll();
@@ -166,14 +169,18 @@ exports.putUser = async (req, res, next) => {
 
 
 
-exports.deleteUser = async (req, res, next) =>{
-    try{
-        const deleteResponse = await User.delete(req.params.id);
-        res.status(200).json(deleteResponse);
-    } catch{
-        console.log('Error');
-    }
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    await User.delete(id);
+    res.status(200).json({ status: true, message: 'Usuário excluído com sucesso' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, message: 'Erro ao excluir usuário. Por favor, tente novamente mais tarde.' });
+  }
 };
+
+
 
 exports.putPicture = async (req, res, next) => {
     const id = req.body.id;

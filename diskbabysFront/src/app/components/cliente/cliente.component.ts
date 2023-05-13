@@ -69,11 +69,23 @@ export class ClienteComponent implements OnInit {
   }
 
   delete(): void {
-    this.userListCrudService.delete(this.loggedInUser$.id).subscribe();
-    sessionStorage.clear;
-    this.router.navigate([""]);
-    this.toastr.success('Conta deletada com sucesso');
+    this.userListCrudService.delete(this.loggedInUser$.id).subscribe(
+      response => {
+        if (response && response.status === true) {
+          this.toastr.success('Conta deletada com sucesso');
+          sessionStorage.clear();
+          this.router.navigate([""]);
+        } else {
+          this.toastr.error(response.message || 'Erro ao excluir usuário. Por favor, tente novamente mais tarde.', 'Erro');
+        }
+      },
+      error => {
+        console.error(error);
+        this.toastr.error('Erro ao excluir usuário. Por favor, tente novamente mais tarde.', 'Erro');
+      }
+    );
   }
+
 
   update(): void {
     console.log(this.updateUserForm.value);
