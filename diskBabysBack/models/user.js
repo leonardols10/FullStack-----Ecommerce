@@ -83,22 +83,37 @@ module.exports = class User{
       
     
 
-    static updateWithoutPicture(user)
-    {
-        return db.execute('update user set email = ? , password = ?, role = ? where id = ?',[user.email,user.password,user.role, user.id]);
-    }
-
-    static updateWithPicture(user)
-    {
-       
-        try{
-            var path = FileSave.saveUserPicture(user.id, user.picture);
-
-            return db.execute('update user set email = ? , password = ?, role = ?,  picture = ? where id = ?',[user.email, user.password,user.role, path, user.id]);
+      static updateWithoutPicture(user) {
+        try {
+            return db.execute(
+                'UPDATE user SET email = ?, password = ?, role = ?, name = ?, address = ?, phone = ? WHERE id = ?',
+                [user.email, user.password, user.role, user.name, user.address, user.phone, user.id]
+            ).then(([result]) => {
+                if (result.affectedRows === 0) {
+                    throw new Error('Nenhum registro de usuário foi atualizado.');
+                }
+                return true;
+            });
         } catch (error) {
-            
+            throw new Error('Erro ao atualizar o usuário: ' + error.message);
         }
     }
+    
+    
+
+    static updateWithPicture(user) {
+      try {
+          var path = FileSave.saveUserPicture(user.id, user.picture);
+  
+          return db.execute(
+              'UPDATE user SET email = ?, password = ?, role = ?, picture = ?, name = ?, address = ?, phone = ? WHERE id = ?',
+              [user.email, user.password, user.role, path, user.name, user.address, user.phone, user.id]
+          );
+      } catch (error) {
+          throw error;
+      }
+  }
+  
 
     static update(user){
         return db.execute('update user set email = ?, password = ?, role = ? where id = ?', [user.email,user.password,user.role, user.id]);

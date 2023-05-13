@@ -37,8 +37,8 @@ export class UserListCrudService {
   }
 
 
-  update(user: User): Observable<User>{
-    return this.http.put<User>(this.urlput,user,this.httpOptions).pipe(first());
+  update(user: User): Observable<{ status: boolean, message: string }>{
+    return this.http.put<{ status: boolean, message: string }>(this.urlput,user,this.httpOptions).pipe(first());
   }
 
   delete(id:number):Observable<any>{

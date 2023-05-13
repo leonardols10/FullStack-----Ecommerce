@@ -1,13 +1,13 @@
 const express = require('express');
-
 const bodyParser = require('body-parser');
-
 const Routes = require('./routes/routes');
-
 
 const app = express();
 const PORT = 3000;
-app.use(bodyParser.json());
+
+// Configuração do body-parser para lidar com o tamanho do payload
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin','*');
@@ -18,6 +18,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/',Routes); 
+app.use('/', Routes); 
 
-app.listen(PORT,()=> console.log(`listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`listening on port ${PORT}`));

@@ -92,31 +92,43 @@
 
               <div class="form-group">
                 <label for="emailInp">Email</label>
-                <input #emailInp class="form-control" id="emailInp" formControlName="email">
+                <input #emailInp class="form-control" id="emailInp" formControlName="email" required type="email">
+                <div *ngIf="updateUserForm.controls['email'].invalid && (updateUserForm.controls['email'].dirty || updateUserForm.controls['email'].touched)" class="text-danger">
+                  Digite um email válido.
+                </div>
               </div>
 
               <div class="form-group">
                 <label for="pwInp">Senha</label>
-                <input #pwInp class="form-control" id="pwInp" formControlName="password">
+                <input #pwInp class="form-control" id="pwInp" formControlName="password" required minlength="6">
+                <div *ngIf="updateUserForm.controls['password'].invalid && (updateUserForm.controls['password'].dirty || updateUserForm.controls['password'].touched)" class="text-danger">
+                  A senha deve ter pelo menos 6 caracteres.
+                </div>
               </div>
 
               <div class="form-group">
                 <label for="phoneInp">Telefone</label>
-                <input #phoneInp class="form-control" id="phoneInp" formControlName="phone">
+                <input #phoneInp class="form-control" id="phoneInp" formControlName="phone" required pattern="[0-9]{10}">
+                <div *ngIf="updateUserForm.controls['phone'].invalid && (updateUserForm.controls['phone'].dirty || updateUserForm.controls['phone'].touched)" class="text-danger">
+                  Digite um número de telefone válido com 10 dígitos.
+                </div>
               </div>
 
               <div class="form-group">
                 <label for="addressInp">Endereço</label>
-                <input #addressInp class="form-control" id="addressInp" formControlName="address">
+                <input #addressInp class="form-control" id="addressInp" formControlName="address" required>
+                <div *ngIf="updateUserForm.controls['address'].invalid && (updateUserForm.controls['address'].dirty || updateUserForm.controls['address'].touched)" class="text-danger">
+                  Digite um endereço válido.
+                </div>
               </div>
 
             </div>
 
             <div class="right">
-              <h5 style="text-align: left;">Change profile picture</h5>
+              <h5 style="text-align: left;">Mudar foto de perfil</h5>
               <img class="product" [src]="profilePicture" width="70" height="70" style="margin:auto" />
               <br />
-              <input #fileInp class="file-upload" type="file" (change)="onFileChange($event)">
+              <input #fileInp class="file-upload" type="file" accept=".jpg" (change)="onFileChange($event)">
             </div>
           </div>
         </form>

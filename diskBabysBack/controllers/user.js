@@ -112,34 +112,59 @@ exports.getUser = async (req, res, next) =>{ // login pronto
     }
 };
 
-exports.putUser = async (req, res, next) =>{
-    const id = req.body.id;
-    const email = req.body.email;
-    const password = req.body.password;
-    const role = req.body.role;
-    const picture = req.body.picture;
+exports.putUser = async (req, res, next) => {
+  const id = req.body.id;
+  const email = req.body.email;
+  const password = req.body.password;
+  const role = req.body.role;
+  const picture = req.body.picture;
+  const name = req.body.name;
+  const address = req.body.address;
+  const phone = req.body.phone;
 
-    try{
-        const userDetails = {
-            id:id,
-            email:email,
-            password:password,
-            role:role,
-            picture:picture
-        };
-        if (req.body.picture == null || req.body.picture == undefined || req.body.picture == "") {
-            var putResponse = await User.updateWithoutPicture(userDetails);
-            res.sendStatus(200);
-        }
-        else {
-            var putResponse = await User.updateWithPicture(userDetails);
-            res.sendStatus(200);
-        }
-
-    } catch{
-        console.log('Erro');
+  try {
+    const userDetails = {
+      id: id,
+      email: email,
+      password: password,
+      role: role,
+      picture: picture,
+      name: name,
+      address: address,
+      phone: phone
+    };
+    
+    const emailExists = await User.findByEmail(email);
+    if (emailExists) {
+      return res.status(400).json({ status: false, message: 'Email já cadastrado.' });
     }
+
+    // Verificar se o telefone já está cadastrado
+    const phoneExists = await User.findByPhone(phone);
+    if (phoneExists) {
+      return res.status(400).json({ status: false, message: 'Telefone já cadastrado.' });
+    }
+
+
+    let putResponse;
+    if (req.body.picture == null || req.body.picture == undefined || req.body.picture == "") {
+      putResponse = await User.updateWithoutPicture(userDetails);
+    } else {
+      putResponse = await User.updateWithPicture(userDetails);
+    }
+
+    if (putResponse) {
+      res.status(200).json({ status: true, message: 'Dados do usuário atualizados com sucesso.' });
+    } else {
+      res.status(500).json({ status: false, message: 'Erro ao atualizar os dados do usuário.' });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: false, message: 'Erro interno no servidor, contate um administrador.' });
+  }
 };
+
+
 
 exports.deleteUser = async (req, res, next) =>{
     try{

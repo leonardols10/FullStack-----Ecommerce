@@ -42,7 +42,7 @@ export class ClienteComponent implements OnInit {
   createFormGroup(): FormGroup {
     return new FormGroup({
       id: new FormControl({ value: this.loggedInUser$.id, disabled: true }, [Validators.required]),
-      email: new FormControl({ value: this.loggedInUser$.email, disabled: false }, [Validators.required]),
+      email: new FormControl({ value: this.loggedInUser$.email, disabled: false }, [Validators.required, Validators.email]),
       password: new FormControl(this.loggedInUser$.password, [Validators.required]),
       role: new FormControl(this.loggedInUser$.role, [Validators.required]),
       picture: new FormControl("", [Validators.required]),
@@ -79,25 +79,36 @@ export class ClienteComponent implements OnInit {
     console.log(this.updateUserForm.value);
     var user = {
       id: this.loggedInUser$.id,
-      email: this.loggedInUser$.email,
+      email: this.updateUserForm.controls['email'].value,
       password: this.updateUserForm.controls['password'].value,
       role: this.loggedInUser$.role,
       picture: this.profilePicture,
-      name: this.loggedInUser$.name,
-      address: this.loggedInUser$.address,
-      phone: this.loggedInUser$.phone,
+      name: this.updateUserForm.controls['name'].value,
+      address: this.updateUserForm.controls['address'].value,
+      phone: this.updateUserForm.controls['phone'].value,
       token: 'token_value'
     }
     this.userListCrudService.update(user).subscribe(
-      (response) => {
-        // Atualização bem-sucedida
-        this.toastr.success('Dados atualizados com sucesso!', 'Sucesso');
-        sessionStorage.setItem('currentUser', JSON.stringify(user));
-        window.location.reload();
+      response => {
+        console.log(response.status);
+        if (response && response.status === true) {
+          this.toastr.success('Dados atualizados com sucesso!', 'Sucesso');
+          sessionStorage.setItem('currentUser', JSON.stringify(user));
+          window.location.reload();
+          } else if (response && response.status === false) {
+          this.toastr.error(response.message || 'Erro ao atualizar cadastro. Por favor, tente novamente mais tarde.', 'Erro');
+          console.log("Erro ao atualizar cadastro: " + response.message);
+        } else {
+          this.toastr.error('Erro ao atualizar cadastro. Por favor, tente novamente mais tarde.', 'Erro');
+        }
       },
-      (error) => {
-        // Ocorreu um erro na atualização
-        this.toastr.error('Ocorreu um erro ao atualizar os dados.', 'Erro');
+      error => {
+        console.error(error);
+        if (error && error.error && error.error.message) {
+          this.toastr.error(error.error.message, 'Erro');
+        } else {
+          this.toastr.error('Erro ao atualizar cadastro. Por favor, tente novamente mais tarde.', 'Erro');
+        }
       }
     );
     }
