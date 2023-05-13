@@ -17,7 +17,6 @@ exports.getAllUsers = async (req, res, next) =>{
             user.picture =  "data:image/jpeg;base64," + await fsp.readFile("../diskBabysBack/assets/users/"+user.picture, 'base64');
         }
         res.status(200).json(allUsers);
-
     } catch{
         console.log('Error');
     }

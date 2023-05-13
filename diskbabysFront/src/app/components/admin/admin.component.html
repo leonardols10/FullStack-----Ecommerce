@@ -40,7 +40,7 @@
               <span class="job_post">{{ user.email }}</span>
               <p>{{ user.address }}</p>
               <div>
-                <button class="btn btn-primary btn-round">Atualizar</button>
+                <button class="btn btn-primary btn-round" data-toggle="modal" data-target="#atualizarModal" (click)="update(user)">Atualizar</button>
                 <button class="btn btn-primary btn-round btn-danger ml-3" (click)="delete(user.id)">Excluir conta</button>
               </div>
             </div>
@@ -50,3 +50,82 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="atualizarModal" tabindex="-1" role="dialog" aria-labelledby="atualizarModalLabel" aria-hidden="true" *ngIf="showModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="atualizarModalLabel">Atualizar Cadastro</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateUserForm" (ngSubmit)="update()" novalidate class="centerForm">
+          <div class="flex-container">
+            <div class="left">
+              <div class="form-group">
+                <label for="idInp">Seu ID</label>
+                <input #idInp class="form-control" id="idInp" formControlName="id">
+              </div>
+
+              <div class="form-group">
+                <label for="nameInp">Nome</label>
+                <input #nameInp class="form-control" id="nameInp" formControlName="name">
+              </div>
+
+              <div class="form-group">
+                <label for="emailInp">Email</label>
+                <input #emailInp class="form-control" id="emailInp" formControlName="email" required type="email">
+                <div *ngIf="updateUserForm.controls['email'].invalid && (updateUserForm.controls['email'].dirty || updateUserForm.controls['email'].touched)" class="text-danger">
+                  Digite um email válido.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pwInp">Senha</label>
+                <input #pwInp class="form-control" id="pwInp" formControlName="password" required minlength="6">
+                <div *ngIf="updateUserForm.controls['password'].invalid && (updateUserForm.controls['password'].dirty || updateUserForm.controls['password'].touched)" class="text-danger">
+                  A senha deve ter pelo menos 6 caracteres.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="phoneInp">Telefone</label>
+                <input #phoneInp class="form-control" id="phoneInp" formControlName="phone" required pattern="[0-9]{10}">
+                <div *ngIf="updateUserForm.controls['phone'].invalid && (updateUserForm.controls['phone'].dirty || updateUserForm.controls['phone'].touched)" class="text-danger">
+                  Digite um número de telefone válido com 10 dígitos.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="addressInp">Endereço</label>
+                <input #addressInp class="form-control" id="addressInp" formControlName="address" required>
+                <div *ngIf="updateUserForm.controls['address'].invalid && (updateUserForm.controls['address'].dirty || updateUserForm.controls['address'].touched)" class="text-danger">
+                  Digite um endereço válido.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="roleSelect">Tipo de Usuário</label>
+                <select class="form-control" id="roleSelect" formControlName="role">
+                  <option value="user">Usuário</option>
+                  <option value="admin">Administrador</option>
+                </select>
+              </div>
+
+            </div>
+
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" (click)="updateBase()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
