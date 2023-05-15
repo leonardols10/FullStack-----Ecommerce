@@ -136,13 +136,12 @@ exports.putUser = async (req, res, next) => {
       phone: phone
     };
     
-    const emailExists = await User.findByEmail(email);
+    const emailExists = await User.findByEmailLogged(email,id);
     if (emailExists) {
       return res.status(400).json({ status: false, message: 'Email já cadastrado.' });
     }
 
-    // Verificar se o telefone já está cadastrado
-    const phoneExists = await User.findByPhone(phone);
+    const phoneExists = await User.findByPhoneLogged(phone,id);
     if (phoneExists) {
       return res.status(400).json({ status: false, message: 'Telefone já cadastrado.' });
     }

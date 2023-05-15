@@ -11,7 +11,7 @@ import { ContatoComponent } from './components/contato/contato.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
-  { path: "login", component: LoginComponent },
+  { path: "login", component: LoginComponent, },
   { path: "contato", component: ContatoComponent },
   { path: "admin", component: AdminComponent, canActivate: [AdminGuard] },
   { path: "cliente", component: ClienteComponent },

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/models/user';
 import { UserListCrudService } from 'src/app/services/user-list-crud.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class CadastroComponent implements OnInit {
   constructor(private userListCrudService:UserListCrudService,private router: Router,private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.checkCurrentUser();
     this.registerForm = this.registerFormGroup();
   }
 
@@ -29,6 +31,21 @@ export class CadastroComponent implements OnInit {
       address: new FormControl("",[Validators.required]),
       role: new FormControl("user")
     });
+  }
+
+  checkCurrentUser(): void {
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (currentUser) {
+      const user = JSON.parse(currentUser) as User;
+
+      if (user.role.toLowerCase() === 'admin') {
+        this.div1 = false;
+        this.router.navigate(['admin']);
+      } else {
+        this.div1 = false;
+        this.router.navigate(['cliente']);
+      }
+    }
   }
 
   div1:boolean=false;

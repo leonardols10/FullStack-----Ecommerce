@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-navbar',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -16,5 +17,6 @@ export class NavbarComponent implements OnInit {
   Logout(){
     sessionStorage.clear();
     this.router.navigate(['home']);
+    this.toastr.success(' Logout  realizado com sucesso');
   }
 }

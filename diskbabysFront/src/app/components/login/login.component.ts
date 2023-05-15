@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   constructor(private userListCrudService: UserListCrudService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.checkCurrentUser();
     this.loginForm = this.formLogin();
   }
 
@@ -31,6 +32,22 @@ export class LoginComponent implements OnInit {
       password: new FormControl("", [Validators.required]),
     });
   }
+
+  checkCurrentUser(): void {
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (currentUser) {
+      const user = JSON.parse(currentUser) as User;
+
+      if (user.role.toLowerCase() === 'admin') {
+        this.div1 = false;
+        this.router.navigate(['admin']);
+      } else {
+        this.div1 = false;
+        this.router.navigate(['cliente']);
+      }
+    }
+  }
+
 
   async checkUser(): Promise<void> {
     const inpOne = this.loginForm.controls['email'].value.trim();

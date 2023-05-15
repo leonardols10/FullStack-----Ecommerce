@@ -24,18 +24,7 @@ export class ClienteComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser$ = JSON.parse(sessionStorage.getItem('currentUser'));
     this.updateUserForm = this.createFormGroup();
-    //this.userName();
     this.profilePicture = this.loggedInUser$.picture;
-  }
-  teste(){
-    console.log(this.loggedInUser$)
-
-  }
-  salvarDados() {
-    // Aqui você pode adicionar a lógica para enviar os dados atualizados para o servidor
-    // Por exemplo, fazer uma requisição HTTP para salvar os dados
-
-    // Após salvar os dados, você pode fechar o modal
   }
 
 
@@ -50,22 +39,6 @@ export class ClienteComponent implements OnInit {
       address: new FormControl(this.loggedInUser$.address, [Validators.required]),
       name: new FormControl(this.loggedInUser$.name, [Validators.required])
     });
-  }
-
-  deleteSessionUserInfo(): void {
-    sessionStorage.removeItem('currentUser');
-  }
-
-  displayPerson(): void {
-    console.log(this.loggedInUser$);
-    let myContainer = document.getElementById('last') as HTMLElement;
-    myContainer.innerHTML = "hello";
-  }
-
-  userName(): void {
-    console.log(this.loggedInUser$);
-    let myContainer2 = document.getElementById('hiName') as HTMLElement;
-    myContainer2.innerHTML = "Hello <b>" + this.loggedInUser$.email + "</b> !!!";
   }
 
   delete(): void {
@@ -125,15 +98,6 @@ export class ClienteComponent implements OnInit {
     );
     }
 
-  showDetails: boolean = false;
-  showUserDetailfunc(): void {
-    if (this.showDetails == false) {
-      this.showDetails = true;
-    }
-    else {
-      this.showDetails = false;
-    }
-  }
 
   public onFileChange(event) {
     const reader = new FileReader();

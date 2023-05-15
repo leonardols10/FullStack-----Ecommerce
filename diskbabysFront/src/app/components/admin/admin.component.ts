@@ -89,6 +89,7 @@ export class AdminComponent implements OnInit {
   Logout(){
     sessionStorage.clear();
     this.router.navigate(['home']);
+    this.toastr.success(' Logout  realizado com sucesso');
   }
 
   delete(id:number):void{
